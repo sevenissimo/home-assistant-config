@@ -1,0 +1,31 @@
+---
+# https://www.home-assistant.io/integrations/logger/
+# https://www.home-assistant.io/integrations/logger/#log-filters
+
+logger:
+  default: warning
+  logs:
+    #homeassistant.components.system_log: info
+    #homeassistant.components.media_player: critical
+    #homeassistant.util.package: fatal
+    #homeassistant.components.rest: debug
+    #homeassistant.components.bluetooth_tracker: info
+    #homeassistant.components.bluetooth_le_tracker: info
+    #custom_components.custom_bluetooth_tracker: debug
+    #custom_components.fastgate_tracker: debug
+    #custom_components.dreame_vacuum: error
+    #pychromecast.socket_client: critical
+    #async_upnp_client: error
+    aiohttp.server: critical
+
+  filters:
+    # Really? Cool... I know... I installed them...
+    homeassistant.loader:
+      - "We found a custom integration"
+
+    # Cheap BananaPi M1 is slow?! Oh I didn't know...
+    homeassistant.setup:
+      - "is taking over 10 seconds"
+
+    homeassistant.components.sensor.recorder:
+      - "The unit of sensor.openweathermap"

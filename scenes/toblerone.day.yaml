@@ -1,0 +1,9 @@
+---
+id: '1664774758846'
+name: Toblerone Daylight
+entities:
+  light.toblerone:
+    state: 'on'
+    brightness: 255
+    color_temp: 153
+icon: mdi:lightbulb

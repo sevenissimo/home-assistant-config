@@ -1,0 +1,30 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitors flora_moisture group entity configured in UI
+# Requires HTML5 notification service
+
+name: leak_alert
+#unique_id: 5fb77bd5-6433-4c1c-b212-5e81a49f36f1
+entity_id: binary_sensor.all_leak_sensors
+
+title: "Allagamento!"
+message: >-
+  {{ states['binary_sensor.all_leak_sensors'].last_changed.astimezone().strftime('%H:%M')
+  }} • Rilevato un allagamento: {{
+    expand('binary_sensor.all_leak_sensors')
+    | selectattr('state', 'eq', 'on')
+    | map(attribute='name') | list | join(', ')
+  }}
+done_message: "Allarme rientrato."
+repeat: 2  # every 2 minutes until disabled
+can_acknowledge: false
+
+notifiers:
+  - html5
+data:
+  data:
+    tag: "leak_alert"
+    priority: high
+    renotify: true
+    ttl: 86400

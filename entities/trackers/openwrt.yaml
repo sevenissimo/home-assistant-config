@@ -1,0 +1,9 @@
+---
+# https://www.home-assistant.io/integrations/luci/
+
+platform: luci
+host: 192.168.10.1 # not a secret
+username: root     # not a secret
+password: !secret wr3000_pswd
+interval_seconds: 60
+consider_home: 60

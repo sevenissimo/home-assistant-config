@@ -1,0 +1,13 @@
+---
+# https://www.home-assistant.io/components/notify/
+# https://www.home-assistant.io/integrations/html5/
+
+# NOTE: without explicit option 'name: html5' there #
+#       will be no service 'notify.html5' in HA     #
+#       to notify all registered devices at once!   #
+
+platform: html5
+name: html5
+vapid_email:   !secret vapid_email
+vapid_pub_key: !secret vapid_pub_key
+vapid_prv_key: !secret vapid_prv_key

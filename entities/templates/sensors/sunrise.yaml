@@ -1,0 +1,10 @@
+---
+name: Sunrise Time
+unique_id: f31c5358-c9b3-11ed-afa1-0242ac120002
+device_class: timestamp
+icon: mdi:weather-sunset-up
+state: >-
+  {{ iif(is_state('sun.sun', 'above_horizon'),
+        states.sun.sun.last_changed,
+        state_attr('sun.sun', 'next_rising')) | default('unavailable') }}
+

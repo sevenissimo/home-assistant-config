@@ -1,0 +1,53 @@
+alarm_proactive_notify:
+# id: 825256e6-7fe1-4665-af36-fbd596b3a3aa
+  alias: Alarm Proactive Notify
+  fields:
+    alarm_entity:
+      name: Alarm entity
+      description: Alarm entity to handle
+      selector:
+        entity:
+          domain: alarm_control_panel
+      required: true
+    alarm_wanted_state:
+      name: Desidered final alarm state
+      selector:
+        select:
+          options:
+            - armed_home
+            - armed_night
+      required: true
+  variables:
+  # alarm_entity: @fields
+    alarm_is_armed: "{{ not is_state(alarm_entity, 'disarmed') }}"
+    alarm_action: |-
+      {% set alarm_actions = {
+        'disarmed':    'disarm',
+        'armed_home' : 'arm_home',
+        'armed_night': 'arm_night' } %}
+      {{ alarm_actions[alarm_wanted_state] }}
+    alarm_action_it: |-
+      {% set alarm_actions_it = {
+        'disarm':    'Disabilita allarme',
+        'arm_home':  'Abilita in Casa',
+        'arm_night': 'Abilita Notte' } %}
+      {{ alarm_actions_it[alarm_action] }}
+    alarm_id: |-
+      {{ states[alarm_entity].entity_id | regex_replace('^[^.]+.') }}
+  sequence:
+    - if:
+        - condition: template
+          value_template: "{{ states(alarm_entity) != alarm_wanted_state }}"
+      then:
+        - service: notify.html5
+          data:
+            title: Allarme {{ state_translated(alarm_entity) }}
+            message: Vuoi modificare lo stato dell'allarme?
+            data:
+              ttl: 7200
+              tag: "{{ alarm_id }}_proactive_notify"
+              icon: /local/assets/alarm-status-alt.png
+              actions:
+                - action: "alarm_{{ alarm_action }}"
+                  title: "{{ alarm_action_it }}"
+  mode: single

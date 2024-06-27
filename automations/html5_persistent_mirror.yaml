@@ -1,0 +1,45 @@
+---
+id: "841877aa-3762-40a2-ae11-d18d030f3aeb"
+alias: HTML5 Persistent Notification Mirror
+description: "Invia copia della notifica persistente tramite HTML5"
+trigger:
+  - platform: persistent_notification
+    update_type:
+      - added
+      - updated
+      - removed
+condition: []
+action:
+  - variables:
+      target: []
+  - if:
+      - condition: template
+        value_template: "{{ trigger.update_type == 'removed' }}"
+        alias: Se la notifica persistente è stata rimossa
+    then:
+      - service: html5.dismiss
+        data:
+          data:
+            tag: "{{ trigger.notification.notification_id }}"
+        alias: Rimuovi le notifiche HTML5 sui dispositivi
+    else:
+      - service: notify.html5
+        data:
+          target: "{{ target | default([]) }}"
+          title: "{{ trigger.notification.title | default('') }}"
+          message: >-
+            {{ trigger.notification.created_at.astimezone().strftime('%H:%M') }} •
+            {{ trigger.notification.message | 
+                regex_replace("^#+", "") | 
+                regex_replace("[_*`]{2,3}", "") | 
+                regex_replace("!?\[[^)]+\)", "") }}
+          data:
+            tag: "{{ trigger.notification.notification_id }}_mirror_notify"
+            ttl: 3600
+            renotify: true
+            actions:
+              - action: notification_dismiss
+                title: Rimuovi notifica
+        alias: Invia copia della notifica persistente ai dispositivi specificati
+mode: queued
+max: 10

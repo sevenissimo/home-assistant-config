@@ -1,0 +1,16 @@
+---
+# https://www.home-assistant.io/integrations/rest/
+# https://www.home-assistant.io/integrations/sensor.rest/#use-github-to-get-the-latest-release-of-home-assistant
+
+resource: https://api.github.com/repos/home-assistant/home-assistant/releases/latest
+authentication: basic
+username: !secret github_email
+password: !secret github_token
+headers:
+  Accept: application/vnd.github.v3+json
+  Content-Type: application/json
+  User-Agent: Home Assistant REST sensor
+sensor:
+  - name: home_assistant_github_version
+    unique_id: c307835b-9f9a-43e3-8b16-0950ea6d0ea0
+    value_template: "{{ value_json.tag_name | version }}"

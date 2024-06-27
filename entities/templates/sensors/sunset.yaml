@@ -1,0 +1,9 @@
+---
+name: Sunset Time
+unique_id: f31c51f0-c9b3-11ed-afa1-0242ac120002
+device_class: timestamp
+icon: mdi:weather-sunset-down
+state: >-
+  {{ iif(is_state('sun.sun', 'above_horizon'),
+        state_attr('sun.sun', 'next_setting'),
+        states.sun.sun.last_changed) | default('unavailable') }}

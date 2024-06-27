@@ -1,0 +1,8 @@
+---
+id: '1664775866567'
+name: Sfavillotti Nightlight
+entities:
+  light.sfavillotti:
+    state: 'on'
+    brightness: 10
+icon: mdi:lightbulb-night

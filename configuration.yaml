@@ -1,0 +1,13 @@
+---
+# Bootstrap Home Assistant
+# https://www.home-assistant.io/docs/configuration/packages
+# https://www.home-assistant.io/docs/configuration/splitting_configuration/
+# https://www.home-assistant.io/common-tasks/core/#configuration-check
+
+homeassistant:
+  packages: !include_dir_named integrations
+
+# The media_source integration does not support any configuration parameters
+# Also: Package media contains invalid customize
+  media_dirs:
+    local: /hdd/Hass

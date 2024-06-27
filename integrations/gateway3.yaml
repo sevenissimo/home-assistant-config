@@ -1,0 +1,5 @@
+---
+# https://github.com/AlexxIT/XiaomiGateway3#advanced-config
+
+xiaomi_gateway3:
+  devices: !include_dir_merge_named entities/gateway3

@@ -1,0 +1,30 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitor binary_sensor.ap_1 entity provided by Ping integration
+# Requires HTML notification service
+
+name: ap_disconnected_alert
+#unique_id: 5b176d84-f093-4b16-8cd9-fe94d544b88b
+entity_id: binary_sensor.ap_1
+state: "off"
+
+title: "Interrato disconnesso!"
+message: "La rete dell'interrato risulta disconnessa. Potrebbe trattarsi di mancanza di tensione. Prego verificare."
+done_message: "La connettività con l'interrato è stata ripristinata."
+repeat:
+  - 5
+  - 15
+  - 60
+  - 120
+skip_first: true
+can_acknowledge: true
+
+notifiers:
+  - html5
+data:
+  data:
+    tag: ap_disconnected_alert
+    priority: high
+    renotify: true
+    ttl: 10800

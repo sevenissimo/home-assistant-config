@@ -1,0 +1,8 @@
+---
+# I need this sh*t because of HA devs not knowing where up/down are...
+# Maybe they are from Austria :P
+# https://www.home-assistant.io/integrations/cover.template/
+
+cover:
+  - platform: template
+    covers: !include_dir_named ../entities/covers

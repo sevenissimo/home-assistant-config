@@ -1,0 +1,7 @@
+---
+# https://www.home-assistant.io/components/group/
+
+# Since 2022.4 Groups are available in the UI ...except for Person entities ...f*ck Persons.
+# https://www.home-assistant.io/blog/2022/04/06/release-20224/#now-available-in-the-ui-groups
+
+group: !include_dir_merge_named ../entities/groups

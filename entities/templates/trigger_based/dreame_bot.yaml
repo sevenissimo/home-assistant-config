@@ -1,0 +1,11 @@
+---
+trigger:
+  - platform: state
+    entity_id: sensor.dreame_bot_task_status
+    from: "cleaning"
+    to: "completed"
+sensor:
+  - name: dreame_bot_task_completion_time
+    state: "{{ now() }}"
+    device_class: timestamp
+    unique_id: 570e1b07-90c4-4c97-8a2e-79423a9cb14e

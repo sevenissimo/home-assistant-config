@@ -1,0 +1,9 @@
+---
+id: '1664774758775'
+name: Astro Daylight
+entities:
+  light.astro:
+    state: 'on'
+    brightness: 178
+    color_temp: 370
+icon: mdi:lightbulb

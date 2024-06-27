@@ -1,0 +1,23 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitors flora_moisture group entity configured in UI
+
+name: flora_moisture_alert
+#unique_id: 2f07a3ef-d849-492c-88cf-394df951644f
+entity_id: binary_sensor.flora_moisture
+state: "off"
+
+title: "Le piante hanno sete!"
+message: >-
+  Alcune piante necessitano di innaffiatura: {{
+    expand('binary_sensor.flora_moisture')
+    | selectattr('state', 'eq', 'on')
+    | map(attribute='name') | list | join(', ')
+  }}
+done_message: "Le piante sono state innaffiate. Grazie."
+repeat: 480  # 8h
+can_acknowledge: false
+
+notifiers:
+  - persistent_notification

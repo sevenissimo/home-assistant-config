@@ -1,0 +1,9 @@
+---
+# https://github.com/home-assistant/core/issues/89119
+#
+platform: custom_bluetooth_tracker
+interval_seconds: 30
+consider_home: 90
+seen_interval_seconds: 90
+new_device_defaults:
+  track_new_devices: true

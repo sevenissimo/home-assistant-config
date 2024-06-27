@@ -1,0 +1,8 @@
+---
+family:
+  name: Family
+  entities:
+    - person.matteo
+    - person.giuliana
+
+# For presence automation use zone.home instead

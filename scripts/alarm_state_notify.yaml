@@ -1,0 +1,59 @@
+alarm_state_notify:
+# id: ecb22167-501b-47a4-b76d-b557b19237d6
+  alias: Notifica Stato Allarme
+  icon: mdi:bell-badge
+  description: Notifica a tutti i dispositivi lo stato di un allarme. La notifica
+    è ripetuta in caso di allarme attivato, fino a disattivazione.
+  fields:
+    alarm_entity:
+      name: Alarm Entity
+      description: Alarm entity to report
+      selector:
+        entity:
+          domain: alarm_control_panel
+      required: true
+  variables:
+#    alarm_entity: @fields
+#    alarm_state_it: >-
+#      {% set alarm_states_it={
+#         "disarmed":    "Disabilitato",
+#         "armed_home":  "abilitato In casa",
+#         "armed_away":  "abilitato Fuori casa",
+#         "armed_night": "abilitato Notte",
+#         "triggered":   "Attivato!"}
+#      %} {{ alarm_states_it[states(alarm_entity)] }}
+    alarm_state_it: "{{ state_translated(alarm_entity) }}"
+    alarm_change_time: "{{ states[alarm_entity].last_changed.astimezone().strftime('%H:%M') }}"
+    alarm_is_critical: "{{ is_state(alarm_entity, 'triggered') }}"
+    alarm_trigger: "{{ expand('binary_sensor.all_alarm_sensors') | selectattr('state', 'eq', 'on') |
+         map(attribute='name') | list | join(', ') }}"
+    alarm_id: |-
+      {{ states[alarm_entity].entity_id | regex_replace('^[^.]+.') }}
+  sequence:
+  - alias: Notifica lo stato dell'allarme al cambiamento. Ripete l'invio in caso di
+      allarme attivato, fino a disattivazione.
+    repeat:
+      until:
+      - condition: template
+        value_template: "{{ not is_state(alarm_entity, 'triggered') }}"
+      sequence:
+      - alias: Invia notifiche a tutti i dispositivi
+        service: notify.html5
+        data:
+          title: Allarme {{ alarm_state_it }} {{ "({})".format(repeat.index) if repeat.index > 1 }}
+          message: >-
+            {% if alarm_is_critical %}
+              {{ alarm_change_time }} • L'allarme è stato attivato da un sensore: {{ alarm_trigger }}
+            {% else %}
+              {{ alarm_change_time }} • Lo stato dell'allarme è cambiato: {{ alarm_state_it }}
+            {% endif %}
+          data:
+            icon: /local/assets/alarm-{{ iif(alarm_is_critical, 'alert', 'status-alt') }}.png
+            tag: "{{ alarm_id }}_state"
+            ttl: 86400
+            priority: high
+            renotify: true
+      - delay:
+          minutes: 3
+  mode: restart
+  max: 10

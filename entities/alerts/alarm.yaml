@@ -1,0 +1,32 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitor alarm entity provided by Xiaomi Gateway3 custom integration
+# Requires HTML5 notification service
+
+name: alarm_triggered_alert
+#unique_id: b460b854-443e-465c-9007-f8856a544628
+entity_id: alarm_control_panel.6490c177d1b5_alarm
+state: "triggered"
+
+title: "Allarme!"
+message: >-
+  {{ states['alarm_control_panel.6490c177d1b5_alarm'].last_changed.astimezone().strftime('%H:%M')
+  }} • L'allarme è stato attivato da un sensore: {{
+    expand('binary_sensor.all_alarm_sensors')
+    | selectattr('state', 'eq', 'on')
+    | map(attribute='name') | list | join(', ')
+  }}
+done_message: "Allarme rientrato."
+repeat: 3  # every 3 minutes until disabled
+can_acknowledge: false
+
+notifiers:
+  - html5
+data:
+  data:
+    icon: "/local/assets/alarm-alert.png"
+    tag: "6490c177d1b5_alarm_alert"
+    ttl: 86400
+    priority: high
+    renotify: true

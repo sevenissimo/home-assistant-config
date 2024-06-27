@@ -1,0 +1,5 @@
+---
+# Shell command exposes regular shell commands as services
+# https://www.home-assistant.io/integrations/shell_command/
+
+shell_command: !include_dir_named ../entities/shell/

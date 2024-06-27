@@ -1,0 +1,13 @@
+---
+id: '1679395703943'
+name: Tapparelle Away
+entities:
+  cover.tapparella_cucina:
+    state: 'open'
+    current_position: 15
+  cover.tapparella_soggiorno:
+    state: 'open'
+    current_position: 15
+  cover.tapparella_cameretta:
+    state: 'open'
+    current_position: 15

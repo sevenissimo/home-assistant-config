@@ -1,0 +1,23 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitor input_boolean.alert_test helper entity (configured in UI)
+
+name: test_alert
+entity_id: input_boolean.alert_test
+
+title: "Alert Test"
+message: >-
+  {{ now().astimezone().strftime('%H:%M') 
+  }} • Questo è un messaggio di test del sistema di alert di Home Assistant.
+done_message: "Il test del sistema di alert si è concluso."
+repeat: 3
+notifiers:
+  - html5_pixel8
+  - html5_beta26
+data:
+  data:
+    tag: alert_test_alert
+    priority: high
+    renotify: true
+    ttl: 300

@@ -1,0 +1,10 @@
+---
+# Self developed FastGate Device Tracker
+# Based on https://www.home-assistant.io/integrations/device_tracker.xiaomi/
+
+platform: fastgate_tracker
+password: !secret fastgate_pswd
+interval_seconds: 60
+consider_home: 60
+new_device_defaults:
+  track_new_devices: false

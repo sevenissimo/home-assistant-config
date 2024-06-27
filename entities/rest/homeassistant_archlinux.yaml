@@ -1,0 +1,20 @@
+---
+# https://www.home-assistant.io/integrations/rest/
+# https://wiki.archlinux.org/title/Official_repositories_web_interface
+
+resource: https://archlinux.org/packages/extra/any/home-assistant/json/
+scan_interval: 43200 # =12h
+sensor:
+  - name: home_assistant_archlinux_version
+    unique_id: 6373e59e-2387-4242-ae66-cf7bd594238c
+    value_template: "{{ value_json.pkgver | version }}"
+   #json_attributes_path: "$"
+    json_attributes:
+      - build_date
+      - last_update
+      - flag_date
+binary_sensor:
+  - name: home_assistant_archlinux_update_available
+    unique_id: fff4ef9a-8ea6-4e90-843e-c1872fa94858
+    value_template: "{{ value_json.pkgver | version > states('sensor.home_assistant_current_version') | default(0) }}"
+timeout: 180

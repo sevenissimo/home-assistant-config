@@ -1,0 +1,24 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Monitor all_batteries template sensor (configured in UI)
+
+name: low_batteries_alert
+#unique_id: becd50b1-f835-4b23-9330-87137db1f9d2
+entity_id: binary_sensor.all_batteries
+
+title: "Batterie (quasi) scariche!"
+message: >-
+  Alcuni dispositivi hanno la batteria quasi scarica (<10%): {{
+    states.sensor
+    | rejectattr('attributes.device_class', 'undefined')
+    | selectattr('attributes.device_class', 'match', '^batter')
+    | selectattr('state', 'match', '^[0-9]$')
+    | map(attribute='name') | list | join(', ')
+  }}
+done_message: "Batterie cariche. Grazie"
+repeat: 720  # 12h
+can_acknowledge: false
+
+notifiers:
+  - persistent_notification

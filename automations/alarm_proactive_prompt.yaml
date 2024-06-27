@@ -1,0 +1,29 @@
+---
+id: "89c1f0ab-54cb-4ba9-beb0-7cd4d420afb6"
+alias: Notifiche Proattive Allarme
+description: "Invia notifiche per sollecitare attivazione o disattivazione dell'allarme (*via script.alarm_proactive_notify)"
+trigger:
+  - platform: state
+    entity_id:
+      - schedule.dnd
+    from: "on"
+    to: "off"
+  - platform: state
+    entity_id:
+      - schedule.dnd
+    from: "off"
+    to: "on"
+variables:
+  alarm_entity: "alarm_control_panel.6490c177d1b5_alarm"
+condition:
+  - condition: numeric_state
+    entity_id: zone.home
+    above: 0
+    alias: Qualcuno è a casa
+action:
+  - service: script.alarm_proactive_notify
+    metadata: {}
+    data:
+      alarm_entity: "{{ alarm_entity }}"
+      alarm_wanted_state: "{{ iif(is_state(trigger.entity_id, 'on'), 'armed_night', 'armed_home') }}"
+mode: single

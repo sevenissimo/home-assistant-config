@@ -1,0 +1,11 @@
+---
+trigger:
+  - platform: state
+    entity_id: sensor.dryer_machine_state
+    from: "run"
+    to: "stop"
+sensor:
+  - name: dryer_completion_time
+    state: "{{ now() }}"
+    device_class: timestamp
+    unique_id: 1d236c71-9210-4470-81e8-1ba77b156c08

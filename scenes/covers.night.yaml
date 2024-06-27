@@ -1,0 +1,12 @@
+---
+id: '1679395779471'
+name: Tapparelle Night
+entities:
+  cover.tapparella_bagno:
+    state: 'close'
+  cover.tapparella_cucina:
+    state: 'close'
+  cover.tapparella_soggiorno:
+    state: 'close'
+  cover.tapparella_cameretta:
+    state: 'close'

@@ -1,0 +1,9 @@
+---
+id: '1664774844986'
+name: Toblerone Nightlight
+entities:
+  light.toblerone:
+    state: 'on'
+    brightness: 40
+    color_temp: 500
+icon: mdi:lightbulb-night

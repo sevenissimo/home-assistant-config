@@ -1,0 +1,40 @@
+---
+id: "892ebeb6-7cd4-4350-98b5-d3cde4ef1c19"
+alias: Handler Notifiche Proattive Allarme
+description: "Gestisce le azioni delle notifiche inviate da script.alarm_proactive_notify"
+trigger:
+  - platform: event
+    event_type: html5_notification.clicked
+    alias: Quando viene cliccata una notifica HTML5
+condition:
+  - condition: template
+    value_template: |-
+      {{ trigger.event.data['tag'].endswith('alarm_proactive_notify')
+         and 'action' in trigger.event.data.keys() }}
+variables:
+  alarm_entity: 'alarm_control_panel.6490c177d1b5_alarm'
+action:
+  - if:
+      - condition: template
+        value_template: |-
+          {{ trigger.event.data['action'] == 'alarm_arm_home'
+             and states(alarm_entity) not in ['armed_away', 'triggered']
+             and states('zone.home')|int > 0 }}
+    then:
+      - service: alarm_control_panel.alarm_arm_home
+        target:
+          entity_id: "{{ alarm_entity }}"
+        data: {}
+  - if:
+      - condition: template
+        value_template: |-
+          {{ trigger.event.data['action'] == 'alarm_arm_night'
+            and not states(alarm_entity) in ['armed_away', 'triggered']
+            and not is_state('zone.home', 0)
+            and is_state('binary_sensor.all_alarm_contacts', 'off') }}
+    then:
+      - service: alarm_control_panel.alarm_arm_night
+        target:
+          entity_id: "{{ alarm_entity }}"
+        data: {}
+mode: restart

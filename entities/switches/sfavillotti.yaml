@@ -1,0 +1,14 @@
+---
+value_template: "{{ states('light.sfavillotti') }}"
+unique_id: 794b6eda-d7d5-11ed-afa1-0242ac120002
+turn_on:
+  service: light.turn_on
+  target:
+    entity_id: light.sfavillotti
+turn_off:
+  service: light.turn_off
+  target:
+    entity_id: light.sfavillotti
+icon_template: >-
+  mdi:toggle-switch-variant{{
+    iif(is_state('light.sfavillotti', 'on'), '', '-off') }}

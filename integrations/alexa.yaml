@@ -1,0 +1,27 @@
+---
+alexa:
+  smart_home:
+    filter:
+      exclude_domains:
+        - cover
+        - select
+#     exclude_entity_globs:
+#       - switch.?
+      exclude_entities:
+      # {{ integration_entities('tuya') | select('match', '(switch|light|cover)') | list }}
+        - switch.luna
+        - switch.galassia
+        - switch.gina
+        - switch.luigi
+        - switch.stella
+        - switch.toblerone
+        - switch.ananas
+        - switch.faretti
+        - switch.aim
+        - switch.tina
+        - switch.sfavillotti
+        - switch.slow_cooker
+        - switch.xbox
+        - light.sfavillotti
+        - light.astro
+        - light.toblerone

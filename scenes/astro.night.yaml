@@ -1,0 +1,9 @@
+---
+id: '1664774844568'
+name: Astro Nightlight
+entities:
+  light.astro:
+    state: 'on'
+    brightness: 13
+    color_temp: 500
+icon: mdi:lightbulb-night

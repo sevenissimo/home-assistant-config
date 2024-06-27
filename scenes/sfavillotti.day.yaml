@@ -1,0 +1,8 @@
+---
+id: '1664664748776'
+name: Sfavillotti Daylight
+entities:
+  light.sfavillotti:
+    state: 'on'
+    brightness: 255
+icon: mdi:lightbulb

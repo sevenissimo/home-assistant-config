@@ -1,0 +1,10 @@
+---
+# https://www.home-assistant.io/components/notify/
+
+notify:
+  # First declared service is identified as notify.notify
+  - platform: group
+    services:
+      - service: html5
+
+notify split: !include_dir_list ../entities/notifyers

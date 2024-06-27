@@ -1,0 +1,9 @@
+---
+# https://www.home-assistant.io/components/tts.google/
+
+platform: google_translate
+service_name: google_say
+language: 'it'
+
+# Time (in seconds) to cache voice message for fast playback.
+time_memory: 57600 # (min 60, max 57600)
