@@ -1,0 +1,25 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - binary_sensor.any_update (Template sensor grouping all update entities)
+
+#name: home_assistant_update_alert
+#unique_id: 3ac8f1c7-e282-4081-9fb7-46c4d044bc3c
+name: "Alert Aggiornamenti"
+entity_id: binary_sensor.any_update
+
+title: "📦 Aggiornamenti"
+message: >-
+  ❕ Sono disponibili aggiornamenti per Home Assistant: {{
+    states.update
+    | selectattr('state', 'eq', 'on') 
+    | map(attribute='name') | list | join(', ') }}
+done_message: "✅ Home Assistant è aggiornato. Grazie."
+repeat:
+  - 43200  # 12h
+skip_first: false
+can_acknowledge: true
+
+notifiers:
+  - persistent_notification

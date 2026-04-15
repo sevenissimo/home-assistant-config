@@ -1,0 +1,25 @@
+---
+# Requires:
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+
+id: "3f2b53df-b3c0-4ccc-a24b-5768c3fa025b"
+alias: Persistent Notification Mirror Handler
+description: "Gestisce le azioni delle notifiche inviate da automation.html5_persistent_mirror"
+trigger:
+  - platform: event
+    event_type: html5_notification.clicked
+    alias: Quando viene cliccata una qualsiasi notifica HTML5
+condition:
+  - condition: template
+    value_template: |-
+      {{ trigger.event.data['tag'].endswith('_mirror_notify')
+         and 'action' in trigger.event.data.keys()
+         and trigger.event.data['action'] == 'notification_dismiss' }}
+    alias: Verifica se era una notifica mirror, se è stata cliccata l'azione (non la notifica) e se l'azione è dismiss
+action:
+  - service: persistent_notification.dismiss
+    data:
+      notification_id: "{{ trigger.event.data['tag'][:-14] }}"
+    alias: Rimuove la notifica persistente dal cassetto notifiche
+mode: queued
+max: 10

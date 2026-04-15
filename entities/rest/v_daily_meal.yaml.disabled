@@ -1,0 +1,26 @@
+---
+# https://www.home-assistant.io/integrations/rest/
+# https://jg-rp.github.io/python-jsonpath/syntax/ for json_attributes_path traversing
+
+resource: http://localhost:8124/menu-fall25.json
+scan_interval: 43200 # =12h
+timeout: 180
+
+sensor:
+  - name: V Daily Meal
+    unique_id: ec256f2b-ea44-4ea9-b30a-fb102c452a84
+    availability: "{{ now().weekday() < 5 }}"
+    value_template: >
+      {% set week = (now().isocalendar()[1] - 42) % 4 %}
+      {% set wday = now().weekday() %}
+      {% set menu = value_json.menu[week][wday] %}
+      {{ [menu.carbs   | default,
+          menu.protein | default,
+          menu.veggies | default] | join(', ') }}
+  - name: V Daily Snack
+    unique_id: e5d499d2-d3a7-4b2c-8464-9e8aac20e6b8
+    availability: "{{ now().weekday() < 5 }}"
+    value_template: >
+      {% set week = (now().isocalendar()[1] - 42) % 4 %}
+      {% set wday = now().weekday() %}
+      {{ value_json.menu[week][wday].snack | default }}

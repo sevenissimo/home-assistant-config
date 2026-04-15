@@ -1,0 +1,30 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - binary_sensor.inverter_zero_yield (Template binary sensor configured in UI)
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+#   - notify.notify (../integration/notify.yaml)
+
+#name: inverter_zero_yield_alert
+#unique_id: 47c2e9f2-4976-4f12-ba15-405011078b81
+name: "Alert Inverter Inattivo"
+entity_id: binary_sensor.inverter_zero_yield
+state: "on"
+
+title: "⚡ Inverter"
+message: >-
+  ❌ {{ states['binary_sensor.inverter_zero_yield'].last_changed.astimezone().strftime('%H:%M')
+  }} • L'inverter non sta producendo energia. Questa condizione è anomala e potrebbe indicare un problema. Prego verificare.
+done_message: "🟢 La produzione dell'inverter è tornata alla normalità."
+repeat: 60  # 1h
+skip_first: false
+can_acknowledge: true
+
+notifiers:
+  - notify
+data:
+  data:
+    tag: basement_offline_alert
+    priority: high
+    renotify: true

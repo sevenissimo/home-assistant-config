@@ -1,0 +1,10 @@
+---
+# https://www.home-assistant.io/integrations/template/
+
+# Configuration split (for template integration) is not working as described in docs
+# https://www.home-assistant.io/docs/configuration/splitting_configuration/
+
+# We need a workaround as proposed here
+# https://community.home-assistant.io/t/splitting-config-for-template/328636/18
+
+template: !include_dir_list ../entities/templates/trigger_based

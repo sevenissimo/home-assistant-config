@@ -1,0 +1,7 @@
+[filter "clean-secrets"]
+	clean = "sed -f .secrets.sed"
+	smudge = cat
+
+[filter "clean-devices"]
+	clean = "sed -f .devices.sed"
+	smudge = cat

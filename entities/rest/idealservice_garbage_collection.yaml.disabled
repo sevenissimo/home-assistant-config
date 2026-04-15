@@ -1,0 +1,18 @@
+---
+# https://www.home-assistant.io/integrations/rest/
+# https://serviziambientali.idealservice.it/it/comuni/roncadelle/calendario/173/
+
+resource: https://serviziambientali.idealservice.it/it/calendario/export/173/
+params:
+  start: "{{ (now() + timedelta(days=1)).strftime('%Y-%m-%d') }}"
+  end:   "{{ (now() + timedelta(days=1)).strftime('%Y-%m-%d') }}"
+scan_interval: 43200 # =12h
+binary_sensor:
+  - name: garbage_collection
+    value_template: "{{ value_json | length > 0 }}"
+    unique_id: 26f4f20e-4c07-11ee-9262-325096b39f47
+sensor:
+  - name: garbage_collection
+    value_template: "{{ value_json | map(attribute='title') | join(', ') }}"
+    unique_id: 26f4f42a-4c07-11ee-8afc-325096b39f47
+timeout: 180

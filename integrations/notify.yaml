@@ -1,0 +1,13 @@
+---
+# https://www.home-assistant.io/components/notify/
+
+notify:
+  # First declared service is identified as `notify.notify` by Home Assistant
+  # This *MUST BE HERE* but requires services defined in `../entities/notifiers`
+  - platform: group
+    services:
+      - service: html5
+      - service: telegram
+    # - service: persistent_notification
+
+notify split: !include_dir_list ../entities/notifiers

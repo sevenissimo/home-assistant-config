@@ -1,0 +1,15 @@
+---
+id: "1dda7042-8ce0-4def-a3dd-3565bf68f1ef"
+alias: Home Assistant Recorder Helper
+description: "Purge long-term data from database for selected domains."
+trigger:
+  - platform: time
+    at: "03:00:00"
+action:
+  - service: recorder.purge_entities
+    data:
+      domains:
+        - device_tracker
+        - media_player
+        - weather
+      keep_days: 1

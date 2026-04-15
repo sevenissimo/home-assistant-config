@@ -1,0 +1,8 @@
+.git
+.git*
+*.MD
+*.md
+*.bak
+*.sed
+*.disabled
+Makefile

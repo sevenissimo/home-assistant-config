@@ -1,0 +1,30 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - sensor.inverter_allarmi (https://www.home-assistant.io/integrations/ping)
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+#   - notify.notify (../integration/notify.yaml)
+
+#name: inverter_alarms_alert
+#unique_id: 47c2e9f2-4976-4f12-ba15-405011078b81
+name: "Alert Problemi Inverter"
+entity_id: sensor.inverter_allarmi
+state: "on" # We need to monitor different states
+
+title: "Inverter riporta dei problemi!"
+message: >-
+  L'inverter riporta dei problemi: {{ states('sensor.inverter_allarmi') }}"
+done_message: "L'inverter funziona normalmente."
+repeat:
+  - 60
+skip_first: false
+can_acknowledge: false
+
+notifiers:
+  - notify
+data:
+  data:
+    tag: inverter_alarms_alert
+    priority: high
+    renotify: true

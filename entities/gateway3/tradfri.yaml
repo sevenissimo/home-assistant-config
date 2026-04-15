@@ -1,0 +1,5 @@
+---
+# https://github.com/AlexxIT/XiaomiGateway3?tab=readme-ov-file#devices-config
+
+"0x705464fffe4df15b": # match device by IEEE or MAC
+  model: "TRADFRI ON/OFF switch"

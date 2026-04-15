@@ -1,0 +1,2 @@
+known_devices.yaml filter=clean-devices
+secrets.yaml filter=clean-secrets

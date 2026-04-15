@@ -1,0 +1,35 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - alarm_control_panel.6490c177d1b5_alarm (https://github.com/AlexxIT/XiaomiGateway3)
+#   - binary_sensor.all_alarm_sensors (Template sensor configured in UI)
+#     (Please note a group is required to use the `expand` function).
+#   - notify.notify (../integration/notify.yaml)
+
+#name: alarm_triggered_alert
+#unique_id: b460b854-443e-465c-9007-f8856a544628
+name: "Alert Allarme Attivato"
+entity_id: alarm_control_panel.6490c177d1b5_alarm
+state: "triggered"
+
+title: "🚨 Allarme"
+message: >-
+  ❗ {{ states['alarm_control_panel.6490c177d1b5_alarm'].last_changed.astimezone().strftime('%H:%M')
+  }} • L'allarme è stato attivato da un sensore: {{ 
+    states.binary_sensor
+    | selectattr('attributes.device_class','in', ['door', 'window', 'motion'])
+    | selectattr('state', 'eq', 'on')
+    | map(attribute='name') | list | join(', ') }}
+done_message: "🟢 Allarme rientrato."
+repeat: 3  # every 3 minutes until disabled
+can_acknowledge: false
+
+notifiers:
+  - notify
+data:
+  data:
+  # icon: "/local/assets/alarm-alert.png"
+    tag: "6490c177d1b5_alarm_alert"
+    priority: high
+    renotify: true

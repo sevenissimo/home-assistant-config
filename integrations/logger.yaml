@@ -1,0 +1,32 @@
+---
+# https://www.home-assistant.io/integrations/logger/
+# https://www.home-assistant.io/integrations/logger/#log-filters
+
+logger:
+  default: warning
+  logs:
+    homeassistant.loader: error
+    homeassistant.components.google_assistant.http: critical
+    pychromecast.socket_client: critical
+    pysmartthings: error
+    huawei_solar.huawei_solar: critical
+    homeassistant.components.forecast_solar: critical
+    # pymodbus: critical
+
+  filters:
+    homeassistant.helpers.frame:
+      - "is using mireds"
+
+    homeassistant.components.light:
+      - "this is a deprecated constant"
+
+    # Really? Cool... I know... I installed them...
+    # However I got spammed with theese messages...
+    homeassistant.loader:
+      - "We found a custom integration"
+    
+    homeassistant.helpers.entity:
+      - "Update of media_player.tv is taking over 10 seconds"
+
+    homeassistant.components.media_player:
+      - "Updating dlna_dmr media_player took longer than the scheduled update interval"

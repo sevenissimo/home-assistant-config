@@ -1,0 +1,29 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - input_boolean.alert_test (virtual switch configured in UI)
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+#   - notify.notify (../integration/notify.yaml)
+
+name: "Alert Test"
+entity_id: input_boolean.alert_test
+
+title: "💬 Alert Test"
+message: >-
+  👉 {{ states['input_boolean.alert_test'].last_changed.astimezone().strftime('%H:%M') 
+  }} • Questo è un messaggio di test del sistema di alert di Home Assistant.
+done_message: "👍 Il test del sistema di alert si è concluso."
+repeat: 3
+
+notifiers:
+  - notify
+data:
+  data:
+    target:
+      - Pixel8
+      - Beta13
+    tag: alert_test_alert
+    priority: high
+    renotify: true
+    ttl: 300

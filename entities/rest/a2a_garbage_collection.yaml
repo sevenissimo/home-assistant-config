@@ -1,0 +1,51 @@
+---
+# https://www.home-assistant.io/integrations/rest/
+# https://www.apricaspa.it/it
+
+# City selected in site's onboarding process and its ID stored in cookies.
+# Cookie must be in urlencoded format: a2a-aa-selectedcity=%7B%22id%22%3A%22...
+# Address is converted to "geociv" ID and must be set in JSON payload.
+
+resource: https://www.apricaspa.it/api/service/area-services/calendar-items
+method: POST
+headers:
+  Content-Type: application/json
+  Cookie: !secret a2a_cookie
+payload: !secret a2a_payload
+#  Cookie: a2a-aa-selectedcity=%7B%22id%22%3A%223fa5468e-fe8c-45c6-b2b7-73f1851785ab%22%7D
+#payload: '{"geociv":779337202}'
+scan_interval: 43200 # =12h
+timeout: 180
+
+binary_sensor:
+  - name: garbage_collection
+    value_template: >
+      {% set tomorrow = (now().replace(hour=0, minute=0, second=0)+timedelta(days=1)).timestamp()|int * 1000 %}
+      {{ value_json.data | selectattr('date', 'equalto', tomorrow) | list | count > 0 }}
+    unique_id: 26f4f20e-4c07-11ee-9262-325096b39f47
+sensor:
+  - name: garbage_collection
+    value_template: >
+      {% set tomorrow = (now().replace(hour=0, minute=0, second=0)+timedelta(days=1)).timestamp()|int * 1000 %}
+      {{ value_json.data | selectattr('date', 'equalto', tomorrow) | map(attribute='desc') | 
+         map('replace', 'Raccolta ', '') | list | join(', ') | title }}
+    unique_id: 26f4f42a-4c07-11ee-8afc-325096b39f47
+    json_attributes:
+      - status
+    # - data    # This will exceed maximum size of 16384 bytes. It will not be stored in DB.
+
+
+# Proof of concept:
+# curl -s -o /dev/null -D - https://www.apricaspa.it/it/roncadelle
+# # Set-Cookie: a2a-aa-selectedcity=%7B%22id%22%3A%22
+
+# curl -s 'https://www.apricaspa.it/api/service/area-services/address-autocomplete' \
+#   -H 'Content-Type: application/json' \
+#   -H 'Cookie: a2a-aa-selectedcity={"id":"3fa5468e-fe8c-45c6-b2b7-73f1851785ab"}' \
+#   --data-raw '{"address":"via Roma 1","source":"database","city":"Roncadelle"}' |\
+# jq '.data[0].id'
+
+# curl -s 'https://www.apricaspa.it/api/service/area-services/calendar-items' \
+#   -H 'Content-Type: application/json' \
+#   -H 'Cookie: a2a-aa-selectedcity={"id":"3fa5468e-fe8c-45c6-b2b7-73f1851785ab"}' \
+#   --data-raw '{"geociv":779337202}' | jq

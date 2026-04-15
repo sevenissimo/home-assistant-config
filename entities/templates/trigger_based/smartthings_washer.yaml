@@ -1,0 +1,15 @@
+---
+# A sensor that records the time when the washing machine stops running.
+# Requires:
+#   - sensor.lavatrice_machine_state (https://www.home-assistant.io/integrations/smartthings/)
+
+trigger:
+  - platform: state
+    entity_id: sensor.lavatrice_machine_state
+    from: "run"
+    to: "stop"
+sensor:
+  - name: lavatrice_completion_time
+    state: "{{ now() }}"
+    device_class: timestamp
+    unique_id: 7bd83ef6-bbd7-4ccb-8271-d26d1f4cd97a

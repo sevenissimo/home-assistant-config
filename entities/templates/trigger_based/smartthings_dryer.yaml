@@ -1,0 +1,15 @@
+---
+# A sensor that records the time when the dryer stops running.
+# Requires:
+#   - sensor.asciugatrice_machine_state (https://www.home-assistant.io/integrations/smartthings/)
+
+trigger:
+  - platform: state
+    entity_id: sensor.asciugatrice_machine_state
+    from: "run"
+    to: "stop"
+sensor:
+  - name: asciugatrice_completion_time
+    state: "{{ now() }}"
+    device_class: timestamp
+    unique_id: 1d236c71-9210-4470-81e8-1ba77b156c08

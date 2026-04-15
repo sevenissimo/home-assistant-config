@@ -1,0 +1,34 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - binary_sensor.wr3000_b (https://www.home-assistant.io/integrations/ping)
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+#   - notify.notify (../integration/notify.yaml)
+
+#name: basement_offline_alert
+#unique_id: 5b176d84-f093-4b16-8cd9-fe94d544b88b
+name: "Alert Interrato Offline"
+entity_id: binary_sensor.wr3k_b
+state: "off"
+
+title: "🏓 Interrato (AP)"
+message: >-
+  ❌ {{ states['binary_sensor.wr3k_b_ping'].last_changed.astimezone().strftime('%H:%M')
+  }} • La rete dell'interrato risulta disconnessa. Potrebbe trattarsi di mancanza di tensione. Prego verificare."
+done_message: "🟢 La connettività con l'interrato è stata ripristinata."
+repeat:
+  - 5
+  - 15
+  - 60
+  - 120
+skip_first: true
+can_acknowledge: true
+
+notifiers:
+  - notify
+data:
+  data:
+    tag: basement_offline_alert
+    priority: high
+    renotify: true

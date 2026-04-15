@@ -1,0 +1,31 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - binary_sensor.all_leak_sensors (Template binary sensor configured in UI)
+#   - notify.notify (../integration/notify.yaml)
+
+name: "Alert Perdita Acqua"
+entity_id: binary_sensor.all_leak_sensors
+state: "on"
+
+title: "💧 Perdita Acqua"
+message: >-
+  ❌ Rilevata perdita d'acqua: {{ 
+    states.binary_sensor
+    | selectattr('attributes.device_class', 'defined')
+    | selectattr('attributes.device_class', 'eq', 'moisture')
+    | selectattr('state', 'eq', 'on')
+    | map(attribute='name') | list | join(', ') }}
+done_message: "✅ Nessuna perdita d'acqua rilevata."
+repeat: 60  # 1h
+skip_first: false
+can_acknowledge: true
+
+notifiers:
+  - notify
+data:
+  data:
+    tag: water_leak_alert
+    priority: high
+    renotify: true

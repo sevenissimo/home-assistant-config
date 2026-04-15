@@ -1,0 +1,22 @@
+---
+id: "ae9a8417-f208-413c-8802-224166d71764"
+alias: Gateway3 Reboot
+description: "Riavvia Xiaomi Gateway 3 all'avvio di Home Assistant"
+triggers:
+  - trigger: homeassistant
+    event: start
+conditions: []
+actions:
+  - action: select.select_option
+    data:
+      option: reboot
+    target:
+      entity_id: select.6490c177d1b5_command
+    alias: Riavvia Xiaomi Gateway 3
+  - action: notify.telegram
+    metadata: {}
+    data:
+      message: >-
+        {{ states['sensor.uptime'].last_changed.astimezone().strftime('%H:%M') 
+        }} • 🚧 Xiaomi Gateway 3 sarà riavviato a seguito del riavvio di Home Assistant
+mode: single

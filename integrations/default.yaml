@@ -1,0 +1,30 @@
+---
+# The default set of integrations
+# https://www.home-assistant.io/integrations/default_config
+
+# Default
+#default_config: ~
+
+# My customized set
+# Get updated default_config from github with:
+# curl -sL https://raw.githubusercontent.com/home-assistant/core/dev/homeassistant/components/default_config/manifest.json | jq -r '.dependencies|join(":\n")'
+
+assist_pipeline:
+bluetooth:
+cloud: # Since 2025.3 we need this for smartthings, great!
+conversation:
+dhcp:
+energy:
+#go2rtc:
+history:
+homeassistant_alerts:
+logbook:
+media_source:
+#mobile_app:
+#my:
+ssdp:
+stream:
+sun:
+#usb:
+webhook:
+zeroconf:

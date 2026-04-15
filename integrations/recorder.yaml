@@ -1,0 +1,53 @@
+---
+# https://www.home-assistant.io/components/recorder/
+
+recorder:
+  # The number of history days to keep in recorder database after automatic purge.
+  purge_keep_days: 15  # default is 10 days
+  # How often (in seconds) the events and state changes are committed to the database.
+  commit_interval: 30  # default is 1 second
+
+  exclude:
+    domains:
+    ## Excluded domains and entities have no history kept in the database at all.
+    ## As long as short-term data is useful, they're not excluded here, instead
+    ## an automation is used to purge data (../automations/homeassistant_recorder_helper.yaml).
+    # - device_tracker
+    # - media_player
+      - update
+      - sun
+      - todo
+    # - weather
+    entity_globs:
+      - sensor.system_*
+      - switch.adaptive_lighting_*
+      - switch.*_pre_release
+    entities:
+      - binary_sensor.workday
+      - binary_sensor.home_assistant
+    event_types:
+      - area_registry_updated
+    # - call_service
+      - category_registry_updated
+      - component_loaded
+      - config_entry_discovered
+      - core_config_updated
+      - device_registry_updated
+      - entity_registry_updated
+      - floor_registry_updated
+      - hass.config.entry_updated
+      - homeassistant_close
+      - homeassistant_final_write
+      - homeassistant_start
+    # - homeassistant_started
+    # - homeassistant_stop
+      - label_registry_updated
+      - logging_changed
+      - lovelace_updated
+      - panels_updated
+      - repairs_issue_registry_updated
+      - service_registered
+      - service_removed
+    # - state_changed
+      - themes_updated
+      - user_removed

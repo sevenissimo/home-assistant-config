@@ -1,0 +1,32 @@
+---
+# https://www.home-assistant.io/integrations/alert/
+
+# Requires:
+#   - binary_sensor.sun2000_3ktl (https://www.home-assistant.io/integrations/ping)
+#   - notify.html5 (https://www.home-assistant.io/integrations/html5)
+#   - notify.notify (../integration/notify.yaml)
+
+#name: inverter_offline_alert
+#unique_id: 47c2e9f2-4976-4f12-ba15-405011078b81
+name: "Alert Inverter Offline"
+entity_id: binary_sensor.sun2000_ping
+state: "off"
+
+title: "🏓 Inverter"
+message: >-
+  ❌ {{ states['binary_sensor.sun2000_ping'].last_changed.astimezone().strftime('%H:%M')
+  }} • L'inverter risulta disconnesso dalla rete. Potrebbe trattarsi di mancanza di tensione. Prego verificare.
+done_message: "🟢 La connettività con l'inverter è stata ripristinata."
+repeat:
+  - 60  # 1h
+  - 180 # 3h
+skip_first: true
+can_acknowledge: true
+
+notifiers:
+  - notify
+data:
+  data:
+    tag: basement_offline_alert
+    priority: high
+    renotify: true

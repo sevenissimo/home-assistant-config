@@ -1,0 +1,19 @@
+---
+# https://www.home-assistant.io/integrations/command_line/
+# NOTE: The command is executed within the configuration directory.
+# NOTE: Templates are supported in the command configuration variable.
+#       Only the arguments can be a template while command must be literally provided.
+
+sensor:
+  name: V Daily Meal
+  unique_id: ec256f2b-ea44-4ea9-b30a-fb102c452a84
+  command: "jq -c '.menu[{{ (now().isocalendar()[1] - 42) % 4 }}][{{ now().weekday() }}]' 'local/data/menu-fall25.json'"
+  scan_interval: 43200 # =12h
+
+  availability: "{{ now().weekday() < 5 }}"
+  value_template: "{{ value_json.type | default('unavailable') }}"
+  json_attributes:
+    - grains
+    - protein
+    - veggies
+    - snack

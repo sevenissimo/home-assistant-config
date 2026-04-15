@@ -1,0 +1,10 @@
+---
+# https://www.home-assistant.io/integrations/telegram
+# Requires Telegram integration (../integrations/telegram.yaml)
+
+platform: telegram
+name: Telegram
+chat_id: 432789330
+
+# ⚠ Telegram is now configurable in Home Assistant UI *but*
+#    could not be grouped in notify.notify to be used in alert

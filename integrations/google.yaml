@@ -1,0 +1,11 @@
+---
+# https://www.home-assistant.io/integrations/google_assistant/
+
+google_assistant:
+  project_id: ha-houseon-top
+  service_account: !include ../google_secret.json
+  report_state: true
+  exposed_domains:
+    - alarm_control_panel
+    - binary_sensor
+    - sensor

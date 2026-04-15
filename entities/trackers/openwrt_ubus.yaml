@@ -1,0 +1,9 @@
+---
+# https://www.home-assistant.io/integrations/ubus/
+
+platform: ubus
+host: 192.168.1.1 # not a secret
+username: root    # not a secret
+password: !secret openwrt_pswd
+interval_seconds: 60
+track_new_devices: false
