@@ -11,13 +11,23 @@ This is a [core installation](https://www.home-assistant.io/installation/linux#i
 
 The active configuration resides in `/var/lib/hass` and is owned by the `hass` user. To synchronize this repository with the production environment, a `Makefile` is provided.
 
+### Git Setup
+To configure Git filters for protecting sensitive information (secrets, device IDs):
+```bash
+make git-setup
+```
+
+### Previewing Changes
+Before deploying, you can preview which files would be changed:
+- To see a list of files that would be updated: `sudo make dry-run`
+- To see the actual content diffs: `sudo make show-diff`
+
 ### Deployment Command
 To deploy the configuration files:
 ```bash
 sudo make install
 ```
-
-This command executes an `rsync` operation (e.g., `rsync -auv --exclude-from='.rsyncignore' --chown=hass:hass ./* /var/lib/hass/`), ensuring that only necessary files are transferred and permissions are correctly set to `hass:hass`.
+This command uses `rsync` to synchronize files. It handles protected files (`automations.yaml`, `scenes.yaml`, `scripts.yaml`) carefully to avoid overwriting UI-managed changes in production while still updating other components.
 
 ---
 

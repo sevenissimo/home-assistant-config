@@ -1,5 +1,6 @@
 .git
 .git*
+.rsync*
 *.MD
 *.md
 *.bak
